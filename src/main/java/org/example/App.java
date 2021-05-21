@@ -41,17 +41,17 @@ public class App {
      * Writes text to a file
      * */
     private static void writeToFile(String fileName, String text) throws IOException {
-        FileWriter fileWriter = new FileWriter(fileName);
-        fileWriter.write(text);
-        fileWriter.close();
+        try (FileWriter fileWriter = new FileWriter(fileName)) {
+            fileWriter.write(text);
+        }
     }
 
     /**
      * Appends text to a file
      * */
     private static void appendToFile(String fileName, String text) throws IOException {
-        FileWriter fileWriter = new FileWriter(fileName, true); // true for append
-        fileWriter.write(text);
-        fileWriter.close();
+        try (FileWriter fileWriter = new FileWriter(fileName, true)) { // true for append
+            fileWriter.write(text);
+        }
     }
 }
