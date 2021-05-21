@@ -14,7 +14,8 @@ public class App {
 
     public static void main(String[] args) throws Exception {
 
-        System.out.println(readArrFromURL(URL, ";")); // prints all URL info
+        List<User> users = readListFromURL(URL, ";");
+        writeListToFile(FILE_NAME, users, "\n");
 
     }
 
@@ -53,7 +54,10 @@ public class App {
                 .toArray();
     }
 
-    private static List<User> readArrFromURL(String url, String separator) throws IOException {
+    /**
+     * Read lines from csv file by URL. Parse these lines to a User DTO
+     */
+    private static List<User> readListFromURL(String url, String separator) throws IOException {
 
         List<User> users = new ArrayList<>();
 
@@ -72,6 +76,14 @@ public class App {
             }
         }
         return users;
+    }
+
+    private static void writeListToFile(String fileName, List<User> users, String separator) throws IOException {
+        try (FileWriter fileWriter = new FileWriter(fileName)) {
+            for (User user : users) {
+                fileWriter.write(user + separator);
+            }
+        }
     }
 
     /**
