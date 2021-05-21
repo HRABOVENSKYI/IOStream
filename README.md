@@ -6,3 +6,4 @@
 * Read arr from file
 * Create file "out.csv" with "; " separated values to open it directly in Excel in the separate cells
 * Read text from the URL
+* Read arr from csv file by URL. Parse lines to the User DTO

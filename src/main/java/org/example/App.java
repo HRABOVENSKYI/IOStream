@@ -14,8 +14,7 @@ public class App {
 
     public static void main(String[] args) throws Exception {
 
-        String content = getText(URL);
-        System.out.println(content); // prints all URL info
+        System.out.println(readArrFromURL(URL, ";")); // prints all URL info
 
     }
 
@@ -52,6 +51,27 @@ public class App {
         return arrayList.stream()
                 .mapToInt(Integer::intValue)
                 .toArray();
+    }
+
+    private static List<User> readArrFromURL(String url, String separator) throws IOException {
+
+        List<User> users = new ArrayList<>();
+
+        URL website = new URL(url);
+        URLConnection connection = website.openConnection();
+
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), ENCODING))) {
+            String line;
+            in.readLine(); // skip first header line
+            while ((line = in.readLine()) != null) {
+                String[] attributes = line.split(separator);
+                String name = attributes[0];
+                String position = attributes[1];
+                Double totalSalary = Double.parseDouble(attributes[11].replace(",", "."));
+                users.add(new User(name, position, totalSalary));
+            }
+        }
+        return users;
     }
 
     /**
@@ -106,7 +126,7 @@ public class App {
 
     /**
      * Read text from URL with a specific encoding (which can be omitted if all works fine)
-     * */
+     */
     public static String getText(String url) throws Exception {
         URL website = new URL(url);
         URLConnection connection = website.openConnection();
